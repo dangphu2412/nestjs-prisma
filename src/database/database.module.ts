@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ModuleConfig } from '@shared/services/module-config';
+import { PrismaService } from './prisma.service';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -10,5 +12,7 @@ import { ModuleConfig } from '@shared/services/module-config';
         moduleConfigService.getPostgresConfig(),
     }),
   ],
+  providers: [PrismaService],
+  exports: [PrismaService],
 })
 export class DatabaseModule {}

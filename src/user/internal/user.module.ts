@@ -7,6 +7,7 @@ import { MonthlyMoneyModule } from '../../monthly-money/internal/monthly-money.m
 import { UserServiceImpl } from './user.service';
 import { AuthorizationModule } from '@authorization/internal/authorization.module';
 import { UserController } from './user.controller';
+import { ExternalUserService } from './external-user.service';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserController } from './user.controller';
       provide: UserServiceToken,
       useClass: UserServiceImpl,
     },
+    ExternalUserService,
   ],
   exports: [DomainUserToken, UserServiceToken],
 })

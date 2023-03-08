@@ -18,6 +18,7 @@ import compression from 'fastify-compress';
 import { logAppScaffold } from './utils';
 import { registerPaginationConfig } from '@shared/query-shape/pagination/config/register-pagination.config';
 import { contentParser } from 'fastify-multer';
+import { PrismaService } from './database/prisma.service';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -29,6 +30,10 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
+
   const config = new DocumentBuilder()
     .setTitle('App example')
     .setDescription('The App API description')

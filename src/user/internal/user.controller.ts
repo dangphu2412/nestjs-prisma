@@ -42,6 +42,7 @@ import { Page } from '@shared/query-shape/pagination/types';
 import { FileInterceptor } from '../../core/internal';
 import { FileCreateUsersDto } from '../client/dtos/file-create-users.dto';
 import { UpdatableUserDto } from '../client/dtos/updatable-user.dto';
+import { ExternalUserService } from './external-user.service';
 
 @ApiTags('users')
 @Controller({
@@ -58,6 +59,7 @@ export class UserController {
     private readonly moneyOperationService: MonthlyMoneyOperationService,
     @Inject(RoleServiceToken)
     private readonly roleService: RoleService,
+    private readonly externalUserService: ExternalUserService,
   ) {}
 
   @Identified
@@ -135,5 +137,15 @@ export class UserController {
     file: Express.Multer.File,
   ) {
     return this.domainUser.createUserUseCase({ ...dto, file });
+  }
+
+  @Get('/external-users')
+  getExternalUsers() {
+    return this.externalUserService.findUsers({});
+  }
+
+  @Post('/external-users')
+  createExternalUsers(@Body() body) {
+    return this.externalUserService.createUser(body);
   }
 }
